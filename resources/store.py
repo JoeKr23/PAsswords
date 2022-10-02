@@ -11,7 +11,7 @@ from schemas import StoreSchema
 blp = Blueprint("Stores", "stores", description="Operations on stores")
 
 
-@blp.route("/store/<string:store_id>")
+@blp.route("/store/<int:store_id>")
 class Store(MethodView):
     @jwt_required()
     @blp.response(200, StoreSchema)
@@ -19,6 +19,7 @@ class Store(MethodView):
         store = StoreModel.query.get_or_404(store_id)
         return store
 
+    @jwt_required()
     def delete(self, store_id):
         store = StoreModel.query.get_or_404(store_id)
         db.session.delete(store)
